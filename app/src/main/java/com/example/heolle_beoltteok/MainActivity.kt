@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.heolle_beoltteok.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationMenu
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import java.util.*
 import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
-
 
     private var time = 0
     private var timerTask: Timer? = null      // null을 허용
@@ -23,9 +23,35 @@ class MainActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
+        init()
     }
+
+    private fun init() {
+        val navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        navigation.setOnNavigationItemReselectedListener { item ->
+            when(item.itemId) {
+
+                R.id.cooking -> {
+                    replaceFragment(CookFragment())
+                    return@setOnNavigationItemReselectedListener
+
+
+                }
+
+            }
+
+
+        }
+    }
+
+    private fun replaceFragment(cookFragment: CookFragment) {
+        val fragment = supportFragmentManager.beginTransaction()
+        fragment.addToBackStack(null)
+        fragment.replace(R.id.frameLayout,cookFragment)
+        fragment.commit()
+    }
+
 }
 
 
