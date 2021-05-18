@@ -8,10 +8,4 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-<<<<<<< HEAD
-    fun init() {var x:Int=1}
-=======
-    ///sadf
-    fun init() {}
->>>>>>> hyungkyu
 }
