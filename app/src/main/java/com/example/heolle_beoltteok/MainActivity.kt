@@ -1,12 +1,16 @@
 package com.example.heolle_beoltteok
 
 import android.os.Bundle
+<<<<<<< HEAD
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.heolle_beoltteok.databinding.ActivityMainBinding
 
 import java.util.*
 import kotlin.concurrent.timer
+=======
+import androidx.appcompat.app.AppCompatActivity
+>>>>>>> Uram
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
@@ -71,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         lap++
     }
 
+<<<<<<< HEAD
     private fun reset() {
         timerTask?.cancel()       // 실행중인 타이머 취소
 
@@ -86,4 +91,7 @@ class MainActivity : AppCompatActivity() {
         lap = 1
     }
 
+=======
+    fun init() {}
+>>>>>>> Uram
 }
