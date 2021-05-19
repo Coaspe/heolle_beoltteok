@@ -4,8 +4,10 @@ import android.os.Bundle
 
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.heolle_beoltteok.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationMenu
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import java.util.*
@@ -27,32 +29,32 @@ class MainActivity : AppCompatActivity() {
         init()
     }
 
-    private fun init() {
-        val navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        navigation.setOnNavigationItemReselectedListener { item ->
-            when(item.itemId) {
+//    private fun init() {
+//        val navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+//        navigation.setOnNavigationItemReselectedListener { item ->
+//            when(item.itemId) {
+//
+//                R.id.cooking -> {
+//                    replaceFragment(CookFragment())
+//                    return@setOnNavigationItemReselectedListener
+//
+//
+//                }
+//
+//            }
+//
+//
+//        }
+//    }
+//
+//    private fun replaceFragment(cookFragment: CookFragment) {
+//        val fragment = supportFragmentManager.beginTransaction()
+//        fragment.addToBackStack(null)
+//        fragment.replace(R.id.frameLayout,cookFragment)
+//        fragment.commit()
+//    }
 
-                R.id.cooking -> {
-                    replaceFragment(CookFragment())
-                    return@setOnNavigationItemReselectedListener
 
-
-                }
-
-            }
-
-
-        }
-    }
-
-    private fun replaceFragment(cookFragment: CookFragment) {
-        val fragment = supportFragmentManager.beginTransaction()
-        fragment.addToBackStack(null)
-        fragment.replace(R.id.frameLayout,cookFragment)
-        fragment.commit()
-    }
-
-}
 
 
 //        binding.playFab.setOnClickListener {
@@ -119,5 +121,43 @@ class MainActivity : AppCompatActivity() {
 //
 //=======
 //    fun init() {}
-//>>>>>>> Uram
-//}
+private fun init() {
+        val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        replaceFragment(HomeFragment())
+
+        bottomNavBar.setOnNavigationItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.home_page-> {
+                    replaceFragment(HomeFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.exercise_page -> {
+                    replaceFragment(ExerciseFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.cooking_page -> {
+                    replaceFragment(CookFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.test_page -> {
+                    replaceFragment(TestFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.setting_page -> {
+                    replaceFragment(SettingFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> {
+                    return@setOnNavigationItemSelectedListener false
+                }
+            }
+        }
+    }
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.commit()
+    }
+}
+
