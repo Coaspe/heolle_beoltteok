@@ -20,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:clickable="false"
             app:itemIconTint="@color/black"
             app:itemTextColor="@color/black"
-            android:clickable="false"
             app:menu="@menu/navigation_items" />
     </FrameLayout>
 
