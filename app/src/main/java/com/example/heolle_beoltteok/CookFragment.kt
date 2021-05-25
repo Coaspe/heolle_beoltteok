@@ -6,13 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-<<<<<<< HEAD
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.heolle_beoltteok.databinding.FragmentCookBinding
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.FirebaseDatabase
-
-=======
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,22 +22,14 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import java.net.URI
 import java.net.URL
->>>>>>> origin/Yoon
-
 import kotlin.concurrent.thread
 
 
 class CookFragment : Fragment() {
-<<<<<<< HEAD
-    lateinit var rdb: FirebaseDatabase
-    lateinit var adapter:MyAdapter
-
-=======
     val storage = Firebase.storage
     lateinit var rdb:FirebaseDatabase
     lateinit var adapter:MyAdapter
     var flag:Boolean = true
->>>>>>> origin/Yoon
 
     var binding:FragmentCookBinding?=null
     var total = 0
@@ -80,18 +65,12 @@ class CookFragment : Fragment() {
             }
 
         }
-
-
         flag = false
-
     }
-
-
 
     fun pause() {
         started = false
         flag = true
-
     }
     fun stop() {
         started = false
@@ -103,11 +82,8 @@ class CookFragment : Fragment() {
 
     }
     fun init() {
-<<<<<<< HEAD
         rdb = FirebaseDatabase.getInstance()
         val rdbref = rdb.getReference("MyDatas/items")
-
-
 
         val query = rdbref.orderByKey()
         val option = FirebaseRecyclerOptions.Builder<MyData>()
@@ -129,11 +105,6 @@ class CookFragment : Fragment() {
             }
         }
         binding!!.startBtn.setOnClickListener {
-=======
-
-
-
-
 
         rdb = FirebaseDatabase.getInstance()
         val rdbref = rdb.getReference("MyDatas/items")
@@ -177,7 +148,6 @@ class CookFragment : Fragment() {
 
 
         total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
->>>>>>> origin/Yoon
 
         adapter.itemClickListener = object :MyAdapter.OnItemClickListener {
 
@@ -202,12 +172,3 @@ class CookFragment : Fragment() {
             stop()
         }
     }
-//    fun formatTime(time:Int) :String {
-//        val milisecond = String.format("%02d",time%60)
-//        val second = String.format("%02d",(time/60)%60)
-//        val minute = String.format("%02d",(time/3600)%60)
-//
-//        return "$minute : $second : $milisecond"
-//    }
-
-}
