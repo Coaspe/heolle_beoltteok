@@ -1,5 +1,7 @@
 package com.example.heolle_beoltteok
 
-class MyData(var image:Int,var pName:String, var pTime:Int)  {
-    constructor() :this(0,"noinfo",0)
+import java.net.URL
+
+class MyData(var image:String,var pName:String, var pTime:Int)  {
+    constructor() :this("noinfo","noinfo",0)
 }
