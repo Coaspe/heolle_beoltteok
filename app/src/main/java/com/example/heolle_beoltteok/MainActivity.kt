@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     return@setOnNavigationItemSelectedListener false
                 }
-=======
+            }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -152,6 +152,4 @@ class MainActivity : AppCompatActivity() {
         binding.lapLayout.removeAllViews()
         lap = 1
     }
-
->>>>>>> db8c2d1839abd5e3e2f5d8a69cff2b01e009b903
 }
