@@ -64,7 +64,6 @@ class CookFragment : Fragment() {
             total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
         }
         binding!!.startBtn.setOnClickListener {
-
             start()
         }
         binding!!.pasueBtn.setOnClickListener {
