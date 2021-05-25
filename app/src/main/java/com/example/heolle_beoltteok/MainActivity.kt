@@ -11,14 +11,14 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     private var time = 0
     private var timerTask: Timer? = null      // null을 허용
     private var isRunning = false
     private var lap = 1
 
-=======
->>>>>>> origin/Uram
+//=======
+//>>>>>>> origin/Uram
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -165,7 +165,7 @@ private fun init() {
             }
         }
     }
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //<<<<<<< HEAD
 
     private fun pause() {
@@ -199,21 +199,18 @@ private fun init() {
         // 모든 랩타임 기록 삭제
         binding.lapLayout.removeAllViews()
         lap = 1
-//=======
-=======
-
->>>>>>> origin/Uram
+    }
     private fun replaceFragment(fragment: Fragment) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //>>>>>>> ad44ecf8606575ece9392bd510dcdf2df341b781
-=======
+//=======
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
->>>>>>> origin/Uram
+//>>>>>>> origin/Uram
     }
-}
+
 
 //<<<<<<< HEAD
 //>>>>>>> db8c2d1839abd5e3e2f5d8a69cff2b01e009b903
