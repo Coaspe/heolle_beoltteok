@@ -11,14 +11,22 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+<<<<<<< HEAD
 //<<<<<<< HEAD
+=======
+
+>>>>>>> ca93a2e8b5975ebbe42656f8cb183df3ec6664e2
     private var time = 0
     private var timerTask: Timer? = null      // null을 허용
     private var isRunning = false
     private var lap = 1
 
+<<<<<<< HEAD
 //=======
 //>>>>>>> origin/Uram
+=======
+
+>>>>>>> ca93a2e8b5975ebbe42656f8cb183df3ec6664e2
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
