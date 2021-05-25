@@ -9,12 +9,14 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.heolle_beoltteok.databinding.ActivityMainBinding
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.FirebaseDatabase
 
 import java.util.*
 import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var rdb : FirebaseDatabase
 
     private var time = 0
     private var timerTask: Timer? = null      // null을 허용
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         init()
     }
