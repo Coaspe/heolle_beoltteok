@@ -1,17 +1,12 @@
 package com.example.heolle_beoltteok
 
 import android.os.Bundle
-
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.heolle_beoltteok.databinding.ActivityMainBinding
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 import java.util.*
-import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity() {
@@ -154,7 +149,7 @@ private fun init() {
             }
         }
     }
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
     private fun pause() {
        // playFab.setImageResource(R.drawable.ic_play_arrow_black_24dp)   // 시작 이미지
@@ -171,8 +166,8 @@ private fun init() {
         binding.lapLayout.addView(textView, 0)     // 0 : 맨 위쪽에 추가
         lap++
     }
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 
     private fun reset() {
         timerTask?.cancel()       // 실행중인 타이머 취소
@@ -187,17 +182,17 @@ private fun init() {
         // 모든 랩타임 기록 삭제
         binding.lapLayout.removeAllViews()
         lap = 1
-=======
+//=======
     private fun replaceFragment(fragment: Fragment) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
->>>>>>> ad44ecf8606575ece9392bd510dcdf2df341b781
+//>>>>>>> ad44ecf8606575ece9392bd510dcdf2df341b781
     }
 }
 
-<<<<<<< HEAD
->>>>>>> db8c2d1839abd5e3e2f5d8a69cff2b01e009b903
+//<<<<<<< HEAD
+//>>>>>>> db8c2d1839abd5e3e2f5d8a69cff2b01e009b903
 }
-=======
->>>>>>> ad44ecf8606575ece9392bd510dcdf2df341b781
+//=======
+//>>>>>>> ad44ecf8606575ece9392bd510dcdf2df341b781
