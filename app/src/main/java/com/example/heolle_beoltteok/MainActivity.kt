@@ -6,10 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+<<<<<<< HEAD
+=======
+import com.google.firebase.database.FirebaseDatabase
+
+>>>>>>> origin/Yoon
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var rdb : FirebaseDatabase
 
     private var time = 0
     private var timerTask: Timer? = null      // null을 허용
@@ -20,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         init()
     }
