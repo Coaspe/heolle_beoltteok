@@ -28,13 +28,13 @@ class ExerciseFragment : Fragment() {
     ): View? {
         binding = FragmentExerciseBinding.inflate(layoutInflater,container,false)
         // Inflate the layout for this fragment
+        init()
         return binding!!.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         rdb = FirebaseDatabase.getInstance().getReference("MyData/items")
-        init()
 //        initData()
 
     }

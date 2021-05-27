@@ -33,6 +33,8 @@ class ExerciseAdapter(options: FirebaseRecyclerOptions<ExerciseData>)
             }
 
 
+
+
         }
     }
 
