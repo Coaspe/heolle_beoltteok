@@ -44,7 +44,7 @@ class CookFragment : Fragment() {
 
                 var cookTimeText = holder.binding.CookingTime.text.toString()
                 val time = cookTimeText.substring(0, cookTimeText.length - 1)
-                binding!!.minute.text = String.format("%02d", time)
+                binding!!.minute.text = String.format("%02d", time.toInt())
                 total = binding!!.minute.text.toString()
                     .toInt() * 3600 + binding!!.second.text.toString()
                     .toInt() * 60 + binding!!.milli.text.toString().toInt()
@@ -103,7 +103,7 @@ class CookFragment : Fragment() {
         //sub thread
         thread(start=true) {
             while(true) {
-                Thread.sleep(10)
+                Thread.sleep(1000)
                 if(!started)break
                 total = total - 1
                 activity!!.runOnUiThread {
