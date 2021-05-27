@@ -1,79 +1,109 @@
 package com.example.heolle_beoltteok
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.heolle_beoltteok.databinding.FragmentCookBinding
-import kotlin.concurrent.thread
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class CookFragment : Fragment() {
-    var binding:FragmentCookBinding?=null
     var total = 0
     var started = false
+    var CookInfo_ArrayList : ArrayList<CookInfo> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    lateinit var adapter: CookRecyclerViewAdapter
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_cook, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+            firebaseDatainit()
+        initRecyclerView(recyclerView)
+        return view
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        binding = FragmentCookBinding.inflate(layoutInflater,container,false)
-        init()
-        return binding!!.root
+    private fun initRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.layoutManager = GridLayoutManager(context,2, GridLayoutManager.HORIZONTAL, false)
+        adapter = CookRecyclerViewAdapter(CookInfo_ArrayList)
+        recyclerView.adapter = adapter
     }
-    fun start() {
-        started = true
-        //sub thread
-        thread(start=true) {
-            while(true) {
-                Thread.sleep(1)
-                if(!started)break
-                total = total - 1
-                activity!!.runOnUiThread {
 
-                    binding!!.minute.text = String.format("%02d",(total/3600)%60)
-                    binding!!.second.text = String.format("%02d",(total/60)%60)
-                    binding!!.milli.text = String.format("%02d",total%60)
+    // firestore에서 데이터를 읽어오는 함수
+     fun firebaseDatainit() {
+        val firestore = FirebaseFirestore.getInstance()
+        try {
+            // collection(Cooking_Info) > documentation(요리 이름) > field(CookingImage,CookingName,CookingTime)
+            firestore.collection("Cooking_Info")
+                // Cooking_Info에 해당하는 collection의 모든 documentation을 불러온 것임 그게 result로 들어감
+                .get()
+                // result로 불러온 값을 CookInfo object로 변형 그렇게하면 정의해둔 data class CookInfo와 같은 형태로 사용 가능
+                .addOnSuccessListener { result ->
+                    for (doc in result) {
+                        CookInfo_ArrayList.add(doc.toObject(CookInfo::class.java))
+                    }
+                    adapter.notifyDataSetChanged()
+                    Log.d("RMx" , CookInfo_ArrayList[0].cookingName)
+                }.addOnFailureListener {
+                    Log.d("fail", it.message.toString())
                 }
-
-            }
-
-        }
-
-    }
-    fun pause() {
-        started = false
-
-    }
-    fun stop() {
-        started = false
-        total = 0
-        binding!!.minute.text = "00"
-        binding!!.second.text = "00"
-        binding!!.milli.text = "00"
-
-    }
-    fun init() {
-        total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
-        binding!!.button5.setOnClickListener {
-            binding!!.minute.text = String.format("%02d",binding!!.button5.text.toString().toInt())
-            total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
-        }
-        binding!!.startBtn.setOnClickListener {
-
-            start()
-        }
-        binding!!.pasueBtn.setOnClickListener {
-            pause()
-        }
-        binding!!.stopBtn.setOnClickListener {
-            stop()
+        } catch (e: Exception){
+            Log.d("Exception", e.message.toString())
         }
     }
+//    fun start() {
+//        started = true
+//        //sub thread
+//        thread(start=true) {
+//            while(true) {
+//                Thread.sleep(1)
+//                if(!started)break
+//                total = total - 1
+//                activity!!.runOnUiThread {
+//
+//                    binding!!.minute.text = String.format("%02d",(total/3600)%60)
+//                    binding!!.second.text = String.format("%02d",(total/60)%60)
+//                    binding!!.milli.text = String.format("%02d",total%60)
+//                }
+//
+//            }
+//
+//        }
+//
+//    }
+//    fun pause() {
+//        started = false
+//
+//    }
+//    fun stop() {
+//        started = false
+//        total = 0
+//        binding!!.minute.text = "00"
+//        binding!!.second.text = "00"
+//        binding!!.milli.text = "00"
+//
+//    }
+//    fun init() {
+//    //recyclerview로 대체
+////        total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
+////        binding!!.button5.setOnClickListener {
+////            binding!!.minute.text = String.format("%02d",binding!!.button5.text.toString().toInt())
+////            total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
+////        }
+////        binding!!.startBtn.setOnClickListener {
+////
+////            start()
+////        }
+////        binding!!.pasueBtn.setOnClickListener {
+////            pause()
+////        }
+////        binding!!.stopBtn.setOnClickListener {
+////            stop()
+////        }
+//    }
 //    fun formatTime(time:Int) :String {
 //        val milisecond = String.format("%02d",time%60)
 //        val second = String.format("%02d",(time/60)%60)

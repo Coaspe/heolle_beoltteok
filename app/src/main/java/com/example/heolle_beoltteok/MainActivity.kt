@@ -1,17 +1,11 @@
 package com.example.heolle_beoltteok
 
 import android.os.Bundle
-
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.heolle_beoltteok.databinding.ActivityMainBinding
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 import java.util.*
-import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,8 +16,6 @@ class MainActivity : AppCompatActivity() {
     private var lap = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
