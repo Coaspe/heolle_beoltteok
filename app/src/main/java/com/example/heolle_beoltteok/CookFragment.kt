@@ -89,7 +89,7 @@ class CookFragment : Fragment() {
                         CookInfo_ArrayList.add(doc.toObject(CookInfo::class.java))
                     }
                     adapter.notifyDataSetChanged()
-                    Log.d("RMx" , CookInfo_ArrayList[0].cookingName)
+                    //Log.d("RMx" , CookInfo_ArrayList[0].cookingName)
                 }.addOnFailureListener {
                     Log.d("fail", it.message.toString())
                 }
