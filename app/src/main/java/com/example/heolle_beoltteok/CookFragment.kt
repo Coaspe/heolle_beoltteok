@@ -1,57 +1,115 @@
 package com.example.heolle_beoltteok
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CookFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CookFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    var total = 0
+    var started = false
+    var CookInfo_ArrayList : ArrayList<CookInfo> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    lateinit var adapter: CookRecyclerViewAdapter
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_cook, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+            firebaseDatainit()
+        initRecyclerView(recyclerView)
+        return view
+    }
+
+    private fun initRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.layoutManager = GridLayoutManager(context,2, GridLayoutManager.HORIZONTAL, false)
+        adapter = CookRecyclerViewAdapter(CookInfo_ArrayList)
+        recyclerView.adapter = adapter
+    }
+
+    // firestore에서 데이터를 읽어오는 함수
+     fun firebaseDatainit() {
+        val firestore = FirebaseFirestore.getInstance()
+        try {
+            // collection(Cooking_Info) > documentation(요리 이름) > field(CookingImage,CookingName,CookingTime)
+            firestore.collection("Cooking_Info")
+                // Cooking_Info에 해당하는 collection의 모든 documentation을 불러온 것임 그게 result로 들어감
+                .get()
+                // result로 불러온 값을 CookInfo object로 변형 그렇게하면 정의해둔 data class CookInfo와 같은 형태로 사용 가능
+                .addOnSuccessListener { result ->
+                    for (doc in result) {
+                        CookInfo_ArrayList.add(doc.toObject(CookInfo::class.java))
+                    }
+                    adapter.notifyDataSetChanged()
+                    Log.d("RMx" , CookInfo_ArrayList[0].cookingName)
+                }.addOnFailureListener {
+                    Log.d("fail", it.message.toString())
+                }
+        } catch (e: Exception){
+            Log.d("Exception", e.message.toString())
         }
     }
+//    fun start() {
+//        started = true
+//        //sub thread
+//        thread(start=true) {
+//            while(true) {
+//                Thread.sleep(1)
+//                if(!started)break
+//                total = total - 1
+//                activity!!.runOnUiThread {
+//
+//                    binding!!.minute.text = String.format("%02d",(total/3600)%60)
+//                    binding!!.second.text = String.format("%02d",(total/60)%60)
+//                    binding!!.milli.text = String.format("%02d",total%60)
+//                }
+//
+//            }
+//
+//        }
+//
+//    }
+//    fun pause() {
+//        started = false
+//
+//    }
+//    fun stop() {
+//        started = false
+//        total = 0
+//        binding!!.minute.text = "00"
+//        binding!!.second.text = "00"
+//        binding!!.milli.text = "00"
+//
+//    }
+//    fun init() {
+//    //recyclerview로 대체
+////        total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
+////        binding!!.button5.setOnClickListener {
+////            binding!!.minute.text = String.format("%02d",binding!!.button5.text.toString().toInt())
+////            total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
+////        }
+////        binding!!.startBtn.setOnClickListener {
+////
+////            start()
+////        }
+////        binding!!.pasueBtn.setOnClickListener {
+////            pause()
+////        }
+////        binding!!.stopBtn.setOnClickListener {
+////            stop()
+////        }
+//    }
+//    fun formatTime(time:Int) :String {
+//        val milisecond = String.format("%02d",time%60)
+//        val second = String.format("%02d",(time/60)%60)
+//        val minute = String.format("%02d",(time/3600)%60)
+//
+//        return "$minute : $second : $milisecond"
+//    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cook, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CookFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                CookFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
-    }
 }
