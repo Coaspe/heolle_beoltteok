@@ -103,7 +103,7 @@ class CookFragment : Fragment() {
         //sub thread
         thread(start=true) {
             while(true) {
-                Thread.sleep(10)
+                Thread.sleep(1000)
                 if(!started)break
                 total = total - 1
                 activity!!.runOnUiThread {
