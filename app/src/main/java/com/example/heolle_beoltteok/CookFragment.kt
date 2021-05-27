@@ -35,6 +35,7 @@ class CookFragment : Fragment() {
         return binding!!.root
     }
     fun init() {
+        total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
         adapter.itemClickListener = object : CookRecyclerViewAdapter.OnItemClickListener {
 
 
