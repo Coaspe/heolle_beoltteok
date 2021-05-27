@@ -23,7 +23,18 @@ class CookFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
             firebaseDatainit()
         initRecyclerView(recyclerView)
+        init()
         return view
+    }
+    fun init() {
+        adapter.itemClickListener = object : CookRecyclerViewAdapter.OnItemClickListener {
+            override fun OnItemClick(holder: CookRecyclerViewAdapter.ViewHolder, view: View) {
+
+               var cookTimeText = holder.binding.CookingTime.text.toString()
+               val time =  cookTimeText.substring(0,cookTimeText.length-1)
+
+            }
+        }
     }
 
     private fun initRecyclerView(recyclerView: RecyclerView) {

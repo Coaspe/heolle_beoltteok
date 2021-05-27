@@ -8,14 +8,18 @@ import com.bumptech.glide.Glide
 import com.example.heolle_beoltteok.databinding.CookingrowBinding
 
 class CookRecyclerViewAdapter(val items:ArrayList<CookInfo>) : RecyclerView.Adapter<CookRecyclerViewAdapter.ViewHolder>() {
+    interface OnItemClickListener {
+        fun OnItemClick(holder: ViewHolder, view: View)
+    }
+
+    var itemClickListener: OnItemClickListener? = null
 
     inner class ViewHolder(val binding: CookingrowBinding, val view: View) : RecyclerView.ViewHolder(binding.root){
         // 아이템 하나를 클릭했을 때 그 아이템에 해당하는 조리 시간이 타이머로 넘어가게 하는 함수
-        fun set_time_click(holder: ViewHolder){
-            val one_row = holder.binding.cookingRowLayout
-            one_row.setOnClickListener {
-                // RecyclerView의 Item을 클릭했을 때 그 holder의 cookingTime이 타이머로 가야함
-                // 타이머의 객체 = holder.binding.CookingTime 이런 식으로.
+        init {
+
+            binding.CookingImage.setOnClickListener {
+                itemClickListener!!.OnItemClick(this, it)
             }
         }
 
