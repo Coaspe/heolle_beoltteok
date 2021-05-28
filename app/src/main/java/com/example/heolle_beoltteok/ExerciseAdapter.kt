@@ -28,8 +28,9 @@ class ExerciseAdapter(options: FirebaseRecyclerOptions<ExerciseData>)
 
     inner class ViewHolder(val binding: ExerciseRowBinding): RecyclerView.ViewHolder(binding.root){
         init {
-            binding.ExerciseImage.setOnClickListener {
+            binding.root.setOnClickListener {
                 itemClickListener!!.OnItemClick(this, it)
+
             }
 
 

@@ -13,6 +13,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
+import kotlin.concurrent.thread
 
 
 class ExerciseFragment : Fragment() {
@@ -22,12 +23,17 @@ class ExerciseFragment : Fragment() {
     lateinit var adapter: ExerciseAdapter
     var findQuery = false
 
+    var total = 0
+    var started = false
+    var flag = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentExerciseBinding.inflate(layoutInflater,container,false)
         // Inflate the layout for this fragment
+        initFB()
         init()
         return binding!!.root
     }
@@ -50,7 +56,7 @@ class ExerciseFragment : Fragment() {
         scan.close()
 
     }
-    fun init(){
+    fun initFB(){
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val query = rdb.limitToLast(50)
         val option = FirebaseRecyclerOptions.Builder<ExerciseData>()
@@ -69,6 +75,81 @@ class ExerciseFragment : Fragment() {
 
 
         adapter.startListening()
+    }
+
+    fun init() {
+        total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
+        adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
+
+
+
+            override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
+                stop()
+                var exerciseTimeText = holder.binding.ExerciseTime.text
+                val time = exerciseTimeText
+                binding!!.minute.text = time
+                total = binding!!.minute.text.toString()
+                    .toInt() * 3600 + binding!!.second.text.toString()
+                    .toInt() * 60 + binding!!.milli.text.toString().toInt()
+
+            }
+        }
+
+        binding!!.startBtn.setOnClickListener {
+            if (flag == true) {
+                start()
+            }
+        }
+
+        binding!!.pasueBtn.setOnClickListener {
+            pause()
+        }
+
+        binding!!.stopBtn.setOnClickListener {
+            stop()
+        }
+
+
+
+    }
+
+    fun start() {
+        started = true
+        //sub thread
+        thread(start=true) {
+            while(true) {
+                Thread.sleep(1000)
+                if(!started)break
+                total = total - 1
+                activity!!.runOnUiThread {
+
+
+                    binding!!.minute.text = String.format("%02d",(total/3600)%60)
+                    binding!!.second.text = String.format("%02d",(total/60)%60)
+                    binding!!.milli.text = String.format("%02d",total%60)
+                }
+
+            }
+
+        }
+
+
+        flag = false
+
+    }
+    fun pause() {
+        started = false
+        flag = true
+
+    }
+    fun stop() {
+        started = false
+        total = 0
+        binding!!.minute.text = "00"
+        binding!!.second.text = "00"
+        binding!!.milli.text = "00"
+        flag = true
+
     }
 
 
