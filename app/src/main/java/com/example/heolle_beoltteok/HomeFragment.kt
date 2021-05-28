@@ -33,12 +33,12 @@ class HomeFragment : Fragment() {
         return view
     }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-=======
+//=======
     fun From_Home_Transaction(fg:Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fg)
@@ -48,5 +48,5 @@ class HomeFragment : Fragment() {
     }
 
 
->>>>>>> origin/Uram
+//>>>>>>> origin/Uram
 }
