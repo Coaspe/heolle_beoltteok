@@ -16,28 +16,63 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/ExerciseName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:text="Exercise"
-            android:textAlignment="center"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/ExerciseTime"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/inlinearLayout1"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="시간"
-            android:textAlignment="center"
-            android:textSize="20dp" />
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/ExerciseName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="Exercise"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/ExerciseTime"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="시간"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inlinearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/RestName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="쉬는시간"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/RestTime"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="시간"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

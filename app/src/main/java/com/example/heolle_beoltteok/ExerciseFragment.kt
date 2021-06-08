@@ -27,6 +27,8 @@ class ExerciseFragment : Fragment() {
     var started = false
     var flag = true
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,13 +46,21 @@ class ExerciseFragment : Fragment() {
 //        initData()
 
     }
+
+
+
     private fun initData() {
         val scan = Scanner(resources.openRawResource(R.raw.data))
         while (scan.hasNextLine()){
-            val name = scan.nextLine()
-            val time = scan.nextLine()
-            val item = ExerciseData(name, time)
-            rdb.child(item.toString()).setValue(item)
+            val e_name = scan.nextLine()
+            val e_min = scan.nextLine()
+            val e_sec = scan.nextLine()
+            val r_min = scan.nextLine()
+            val r_sec = scan.nextLine()
+
+
+            val item = ExerciseData(e_name, e_min, e_sec, r_min, r_sec)
+            rdb.child(e_name).setValue(item)
 
         }
         scan.close()
@@ -78,19 +88,36 @@ class ExerciseFragment : Fragment() {
     }
 
     fun init() {
-        total = binding!!.minute.text.toString().toInt() *3600 + binding!!.second.text.toString().toInt()*60 + binding!!.milli.text.toString().toInt()
+        total = binding!!.minute.text.toString().toInt() *60 + binding!!.second.text.toString().toInt()
         adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
-
-
-
             override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
                 stop()
-                var exerciseTimeText = holder.binding.ExerciseTime.text
-                val time = exerciseTimeText
-                binding!!.minute.text = time
+                var exerciseTimeText = holder.binding.ExerciseTime.text.toString()
+                val spltext = exerciseTimeText.split(" ")
+
+                binding!!.minute.text = spltext[0].toString()
+                binding!!.second.text = spltext[2].toString()
+
                 total = binding!!.minute.text.toString()
-                    .toInt() * 3600 + binding!!.second.text.toString()
-                    .toInt() * 60 + binding!!.milli.text.toString().toInt()
+                    .toInt() * 60 + binding!!.second.text.toString()
+                    .toInt()
+
+                binding!!.progressBar1.setProgress(100)
+                binding!!.progressBar2.setProgress(100)
+
+                if (binding!!.progressBar1.progress==0){
+                    var restTimeText = holder.binding.RestTime.text.toString()
+                    val spltext2 = restTimeText.split(" ")
+
+                    binding!!.minute.text = spltext2[0].toString()
+                    binding!!.second.text = spltext2[2].toString()
+
+                    total = binding!!.minute.text.toString()
+                        .toInt() * 60 + binding!!.second.text.toString()
+                        .toInt()
+
+                    start()
+                }
 
             }
         }
@@ -115,18 +142,20 @@ class ExerciseFragment : Fragment() {
 
     fun start() {
         started = true
+        var totaltotal = total.toFloat()
         //sub thread
         thread(start=true) {
             while(true) {
                 Thread.sleep(1000)
                 if(!started)break
                 total = total - 1
+                var percent = (total.toFloat()/totaltotal)*100
+                binding!!.progressBar1.setProgress(percent.toInt())
                 activity!!.runOnUiThread {
 
 
-                    binding!!.minute.text = String.format("%02d",(total/3600)%60)
-                    binding!!.second.text = String.format("%02d",(total/60)%60)
-                    binding!!.milli.text = String.format("%02d",total%60)
+                    binding!!.minute.text = String.format("%02d",(total/60)%60)
+                    binding!!.second.text = String.format("%02d",(total)%60)
                 }
 
             }
@@ -147,7 +176,6 @@ class ExerciseFragment : Fragment() {
         total = 0
         binding!!.minute.text = "00"
         binding!!.second.text = "00"
-        binding!!.milli.text = "00"
         flag = true
 
     }

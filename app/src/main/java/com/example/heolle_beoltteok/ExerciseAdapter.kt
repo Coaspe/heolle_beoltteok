@@ -26,6 +26,8 @@ class ExerciseAdapter(options: FirebaseRecyclerOptions<ExerciseData>)
     }
     var itemClickListener:OnItemClickListener?=null
 
+
+
     inner class ViewHolder(val binding: ExerciseRowBinding): RecyclerView.ViewHolder(binding.root){
         init {
             binding.root.setOnClickListener {
@@ -48,8 +50,9 @@ class ExerciseAdapter(options: FirebaseRecyclerOptions<ExerciseData>)
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: ExerciseData) {
         holder.binding.apply {
 
-            ExerciseName.text = model.name
-            ExerciseTime.text = model.time
+            ExerciseName.text = model.ename.toString()
+            ExerciseTime.text = (model.emin + " 분 "+model.esec+" 초").toString()
+            RestTime.text = (model.rmin + " 분 "+model.rsec+" 초").toString()
 
 
 
