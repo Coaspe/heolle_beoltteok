@@ -22,8 +22,10 @@ class ExerciseFragment : Fragment() {
     lateinit var layoutManager: LinearLayoutManager
     lateinit var adapter: ExerciseAdapter
     var findQuery = false
+    var stat = 0
 
     var total = 0
+    var total2 = 0
     var started = false
     var flag = true
 
@@ -91,7 +93,9 @@ class ExerciseFragment : Fragment() {
         total = binding!!.minute.text.toString().toInt() *60 + binding!!.second.text.toString().toInt()
         adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
             override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
+                stat = 0
                 stop()
+                stop2()
                 var exerciseTimeText = holder.binding.ExerciseTime.text.toString()
                 val spltext = exerciseTimeText.split(" ")
 
@@ -105,19 +109,14 @@ class ExerciseFragment : Fragment() {
                 binding!!.progressBar1.setProgress(100)
                 binding!!.progressBar2.setProgress(100)
 
-                if (binding!!.progressBar1.progress==0){
-                    var restTimeText = holder.binding.RestTime.text.toString()
-                    val spltext2 = restTimeText.split(" ")
+                var restTimeText = holder.binding.RestTime.text.toString()
+                val spltext2 = restTimeText.split(" ")
+                binding!!.rminute.text = spltext2[0].toString()
+                binding!!.rsecond.text = spltext2[2].toString()
 
-                    binding!!.minute.text = spltext2[0].toString()
-                    binding!!.second.text = spltext2[2].toString()
-
-                    total = binding!!.minute.text.toString()
-                        .toInt() * 60 + binding!!.second.text.toString()
-                        .toInt()
-
-                    start()
-                }
+                total2 = binding!!.rminute.text.toString()
+                    .toInt() * 60 + binding!!.rsecond.text.toString()
+                    .toInt()
 
             }
         }
@@ -126,6 +125,8 @@ class ExerciseFragment : Fragment() {
             if (flag == true) {
                 start()
             }
+
+
         }
 
         binding!!.pasueBtn.setOnClickListener {
@@ -149,23 +150,70 @@ class ExerciseFragment : Fragment() {
                 Thread.sleep(1000)
                 if(!started)break
                 total = total - 1
-                var percent = (total.toFloat()/totaltotal)*100
-                binding!!.progressBar1.setProgress(percent.toInt())
+                if(stat==0){
+                    var percent = (total.toFloat()/totaltotal)*100
+                    binding!!.progressBar1.setProgress(percent.toInt())
+                    if (percent.toInt()==0){
+                        stat = 1
+                        started=false
+                        start2()
+                    }
+                }
+
                 activity!!.runOnUiThread {
 
-
+                    if (stat==0){
                     binding!!.minute.text = String.format("%02d",(total/60)%60)
                     binding!!.second.text = String.format("%02d",(total)%60)
+                    }
+                    else{
+                        binding!!.minute.text = "00"
+                        binding!!.second.text = "00"
+                    }
                 }
+
 
             }
 
         }
-
-
         flag = false
 
     }
+
+    fun start2() {
+        started = true
+        var totaltotal = total2.toFloat()
+        //sub thread
+        thread(start = true) {
+            while (true) {
+                Thread.sleep(1000)
+                if (!started) break
+                total2 = total2 - 1
+                if (stat == 1) {
+                    var percent = (total2.toFloat() / totaltotal) * 100
+                    binding!!.progressBar2.setProgress(percent.toInt())
+                    if (percent.toInt() == 0) {
+                        started = false
+                    }
+                }
+
+                activity!!.runOnUiThread {
+
+
+                    binding!!.rminute.text = String.format("%02d", (total2 / 60) % 60)
+                    binding!!.rsecond.text = String.format("%02d", (total2) % 60)
+                }
+
+
+            }
+
+        }
+        flag = false
+
+
+    }
+
+
     fun pause() {
         started = false
         flag = true
@@ -176,6 +224,14 @@ class ExerciseFragment : Fragment() {
         total = 0
         binding!!.minute.text = "00"
         binding!!.second.text = "00"
+        flag = true
+
+    }
+    fun stop2() {
+        started = false
+        total2 = 0
+        binding!!.rminute.text = "00"
+        binding!!.rsecond.text = "00"
         flag = true
 
     }
