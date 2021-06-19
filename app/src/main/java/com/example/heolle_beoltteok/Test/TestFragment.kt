@@ -1,14 +1,24 @@
 package com.example.heolle_beoltteok.Test
 
+import android.app.AlarmManager
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.example.heolle_beoltteok.R
 import com.example.heolle_beoltteok.databinding.FragmentTestBinding
 
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,10 +35,13 @@ class TestFragment : Fragment() {
     var flag: Boolean = true
     var total = 0
     var started = true
+    lateinit var myThread:Thread
 
-
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if(myThread.isAlive)
+            pause()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -73,38 +86,55 @@ class TestFragment : Fragment() {
 
     }
 
+    private fun makeNotification() {
+        val id = "MyChannel"
+        val name = "MyApp"
+        val notificationChannel = NotificationChannel(id,name,NotificationManager.IMPORTANCE_DEFAULT)
+           // activity.NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT)
+        notificationChannel.enableVibration(true)
+
+
+        val builder = NotificationCompat.Builder(binding!!.root.context, id)
+            .setSmallIcon(R.drawable.alarmimage)
+            .setContentTitle("알람")
+            .setAutoCancel(true)
+        val manager =  context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(notificationChannel)
+        val notification = builder.build()
+        manager.notify(11, notification)
+
+    }
+
     fun start() {
         flag = false
         started = true
-
-
-
         //sub thread
-
-        thread(start = true) {
+        myThread = thread(start = true) {
             var flag2 = true
             while (true) {
-
                 Thread.sleep(1000)
                 if(flag2 == false)  break
                 if (!started) break
+
+                val current = binding!!.viewpager.currentItem
+                if(current == TestInfo_ArrayList.size-1 && binding!!.hour.text == "00" && binding!!.minute.text == "00" && binding!!.sec.text == "00")
+                {
+                    makeNotification()
+//                    Toast.makeText(context,"pz",Toast.LENGTH_SHORT).show()
+                    return@thread
+                }
                 total = total - 1
                 activity!!.runOnUiThread {
+
                     if (binding!!.hour.text == "00" && binding!!.minute.text == "00" && binding!!.sec.text == "00") {
                         flag2 = false
                         var current = binding!!.viewpager.currentItem
                         binding!!.viewpager.setCurrentItem(current+1, false)
-                        Log.e("scroll", "scroll")
-                        Log.e("current",TestInfo_ArrayList.size.toString())
                         started=false
                         flag = true
+                    }
+                    //val current = binding!!.viewpager.currentItem
 
-                    }
-                    val current = binding!!.viewpager.currentItem
-                    if(current == TestInfo_ArrayList.size-1 && binding!!.hour.text == "00" && binding!!.minute.text == "00" && binding!!.sec.text == "00")
-                    {
-                        Toast.makeText(context,"pz",Toast.LENGTH_SHORT).show()
-                    }
                     binding!!.hour.text = String.format("%02d", (total / 3600) % 60)
                     binding!!.minute.text = String.format("%02d", (total / 60) % 60)
                     binding!!.sec.text = String.format("%02d", total % 60)
@@ -151,21 +181,6 @@ class TestFragment : Fragment() {
             }
 
         }
-//        adapter.itemClickListener2 = object :TestRecyclerViewAdapter.OnItemClickListener {
-//            override fun OnItemClick(
-//                    holder: TestRecyclerViewAdapter.ViewHolder,
-//                    view: View,
-//                    position: Int,
-//                    hour: String,
-//                    minute: String,
-//                    sec: String
-//            ) {
-//                var current = binding!!.viewpager.currentItem
-//                binding!!.viewpager.setCurrentItem(current+1, false)
-//
-//
-//            }
-//        }
 
         binding!!.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
@@ -206,20 +221,8 @@ class TestFragment : Fragment() {
         }
     }
 
-
-
     }
 
 
-
-
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        if (binding!!.minute.text == "00" && binding!!.second.text == "00" && binding!!.milli.text == "00") {
-//            Log.e("scroll","scroll")
-//            layoutManager.scrollToPosition(6)
-//
-//        }
-//        super.onActivityCreated(savedInstanceState)
-//    }
 
 

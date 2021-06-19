@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok
+package com.example.heolle_beoltteok.Cook
 
 data class CookInfo(
     var cookingName : String = "",

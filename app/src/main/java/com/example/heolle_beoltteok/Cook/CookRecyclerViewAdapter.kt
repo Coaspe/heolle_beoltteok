@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok
+package com.example.heolle_beoltteok.Cook
 
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +23,7 @@ class CookRecyclerViewAdapter(val items:ArrayList<CookInfo>) : RecyclerView.Adap
             }
         }
 
-        fun data_bind(holder:ViewHolder, position: Int) {
+        fun data_bind(holder: ViewHolder, position: Int) {
             val CookName = holder.binding.CookingName
             val CookTime = holder.binding.CookingTime
             val CookImage = holder.binding.CookingImage
@@ -32,7 +32,7 @@ class CookRecyclerViewAdapter(val items:ArrayList<CookInfo>) : RecyclerView.Adap
             CookTime.text = items[position].cookingTime
             Glide.with(itemView).load(items[position].cookingImg).into(CookImage)
         }
-        fun bind(holder:ViewHolder, position:Int) {
+        fun bind(holder: ViewHolder, position:Int) {
             data_bind(holder,position)
         }
     }

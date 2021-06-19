@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok
+package com.example.heolle_beoltteok.Cook
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -12,12 +12,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.heolle_beoltteok.R
 import com.example.heolle_beoltteok.databinding.AddDialogBinding
 import com.example.heolle_beoltteok.databinding.DeleteDialogBinding
 import com.example.heolle_beoltteok.databinding.FragmentCookBinding
@@ -140,7 +140,7 @@ class CookFragment : Fragment() {
     }
 
     fun start() {
-        if (binding!!.minute.text == "00" || binding!!.second.text == "00") {
+        if (binding!!.minute.text == "00" && binding!!.second.text == "00") {
             Toast.makeText(context, "요리를 선택해주세요!!!", Toast.LENGTH_SHORT).show()
             return;
         }

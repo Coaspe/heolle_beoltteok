@@ -34,10 +34,7 @@ class TestRecyclerViewAdapter(val items:ArrayList<TestInfo>) : RecyclerView.Adap
         val TestTime = holder.binding.testTime
         //val TestImage = holder.binding.testImage
 
-        val NextImage = holder.binding.nextButton
 
-        //NextImage.setImageResource(R.drawable.ic_baseline_navigate_next_24)
-        NextImage.visibility = View.GONE
 
 
 //        TestFragment().itemClickListener = object : TestFragment.OnItemClickListener {

@@ -91,20 +91,19 @@ class SettingFragment : Fragment() {
 
             val okButton = dialogView.findViewById<Button>(R.id.addDialogAddButton)
             val noButton = dialogView.findViewById<Button>(R.id.addDialogCancleButton)
-
+            val testName = dialogView.findViewById<EditText>(R.id.addDialogCookingName)
+            val testTime= dialogView.findViewById<EditText>(R.id.addDialogCookingTime)
             okButton.setOnClickListener {
-                val testName = dialogView.findViewById<EditText>(R.id.addDialogCookingName).text.toString()
-                val testTime= dialogView.findViewById<EditText>(R.id.addDialogCookingTime).text.toString()
 
-                val test = TestInfo(testName, testTime, "", String.format("%02d", testTime.toInt() / 60), String.format("%02d", testTime.toInt() % 60), "00")
+                val test = TestInfo(testName.text.toString(), testTime.text.toString(), "", String.format("%02d", testTime.text.toString().toInt() / 60), String.format("%02d",  testTime.text.toString().toInt() % 60), "00")
                 TestInfo_ArrayList.add(test)
                 adapter.notifyDataSetChanged()
 
                 newTest = hashMapOf<String, String>(
-                        "testName" to testName,
-                        "testTime" to testTime,
-                        "hour" to String.format("%02d", testTime.toInt() / 60),
-                        "minute" to String.format("%02d", testTime.toInt() % 60),
+                        "testName" to testName.text.toString(),
+                        "testTime" to testTime.text.toString(),
+                        "hour" to String.format("%02d",  testTime.text.toString().toInt() / 60),
+                        "minute" to String.format("%02d",  testTime.text.toString().toInt()% 60),
                         "sec" to "00"
                 )
                 newTestArray.add(newTest)
@@ -118,6 +117,8 @@ class SettingFragment : Fragment() {
                 if (dialogView.getParent() != null) {
                     (dialogView.getParent() as ViewGroup).removeView(dialogView)
                 }
+                testName.text.clear()
+                testTime.text.clear()
                 mBuilder.dismiss()
             }
         }

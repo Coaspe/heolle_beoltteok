@@ -26,11 +26,14 @@
         android:id="@+id/addBtn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#f5f5dc"
+        android:textColor="@color/black"
         android:text="타이머 추가" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -46,12 +49,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
+            android:backgroundTint="#f5f5dc"
+            android:textColor="@color/black"
             android:text="추가" />
 
         <Button
             android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#f5f5dc"
+            android:textColor="@color/black"
             android:text="취소" />
     </LinearLayout>
 

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:gravity="center"
-        android:text="2022학년도 수능"
+        android:textColor="@color/black"
+        android:text="TextView"
         android:textSize="45dp"
         android:textStyle="bold" />
 
@@ -30,6 +31,8 @@
         android:id="@+id/button"
         android:layout_width="194dp"
         android:layout_height="60dp"
+        android:backgroundTint="#f5f5dc"
+        android:textColor="@color/black"
         android:text="시작" />
 
 </LinearLayout>
