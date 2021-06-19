@@ -51,7 +51,7 @@ class IntroFragment : Fragment() {
             fragment.commit()
         }
 
-            if (viewModel.getValue() == "Exam") {
+            if (viewModel.getValue() == "수능") {
                 val url = "https://superkts.com/cal/su_day/2022"
                 scope.launch {
                     try {
@@ -88,6 +88,23 @@ class IntroFragment : Fragment() {
                     }
                 }
             }
+        if (viewModel.getValue() == "TEPS") {
+            val url = "https://search.naver.com/search.naver?where=nexearch&sm=top_sug.pre&fbm=1&acr=1&acq=%ED%85%9D%EC%8A%A4+%EC%8B%9C%ED%97%98&qdt=0&ie=utf8&query=%ED%85%9D%EC%8A%A4+%EC%8B%9C%ED%97%98%EC%9D%BC%EC%A0%95"
+            scope.launch {
+                try {
+                    val doc = Jsoup.connect(url).get()
+                    withContext(Dispatchers.Main) {
+                        val title = doc.getElementsByAttributeValue("class", "table_title")
+                        val d_day = doc.getElementsByAttributeValue("class", "schedule_inven")
+                        binding!!.textView2.text = title.text().substring(0,6)
+                        binding!!.textView3.text = d_day.text().substring(151, 165)
+
+                    }
+
+                } catch (e: Exception) {
+                }
+            }
+        }
         else {
                 binding!!.textView2.text = viewModel.getValue()
                 rdb.child(viewModel.getValue()).child("date")

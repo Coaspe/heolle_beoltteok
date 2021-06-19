@@ -40,7 +40,7 @@ class TestFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         if(myThread.isAlive)
-            pause()
+            stop()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -83,6 +83,8 @@ class TestFragment : Fragment() {
                     }
             } catch (e: Exception) {
             }
+
+
 
     }
 
