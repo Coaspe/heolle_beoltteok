@@ -2,23 +2,28 @@ package com.example.heolle_beoltteok
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.heolle_beoltteok.databinding.AddDialogBinding
+import com.example.heolle_beoltteok.databinding.CookingrowBinding
 import com.example.heolle_beoltteok.databinding.DeleteDialogBinding
 import com.example.heolle_beoltteok.databinding.FragmentCookBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,6 +45,7 @@ class CookFragment : Fragment() {
     var binding: FragmentCookBinding? = null
     var dialogBinding: AddDialogBinding? = null
     var deleteBinding: DeleteDialogBinding? = null
+    var cookingrowBinding: CookingrowBinding? = null
     var total = 0
     var started = false
     var CookInfo_ArrayList: ArrayList<CookInfo> = ArrayList()
@@ -54,6 +60,7 @@ class CookFragment : Fragment() {
         binding = FragmentCookBinding.inflate(layoutInflater, container, false)
         dialogBinding = AddDialogBinding.inflate(layoutInflater, container, false)
         deleteBinding = DeleteDialogBinding.inflate(layoutInflater, container, false)
+        cookingrowBinding = CookingrowBinding.inflate(layoutInflater, container, false)
         firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
         binding!!.minute.text = "00"
@@ -72,7 +79,6 @@ class CookFragment : Fragment() {
             override fun OnItemClick(holder: CookRecyclerViewAdapter.ViewHolder, view: View) {
                 val time: String
                 var cookTimeText = holder.binding.CookingTime.text.toString()
-                Log.d("asefasef", cookTimeText.get(cookTimeText.length - 1) + "dfsfse")
                 if (checkNumber(cookTimeText)) {
                     time = cookTimeText
                 } else {
@@ -139,17 +145,19 @@ class CookFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun start() {
-        if (binding!!.minute.text == "00" || binding!!.second.text == "00") {
+        if (binding!!.minute.text == "00" && binding!!.second.text == "00") {
             Toast.makeText(context, "요리를 선택해주세요!!!", Toast.LENGTH_SHORT).show()
-            return;
+            return
         }
         started = true
-        //sub thread
         thread(start = true) {
             while (true) {
                 Thread.sleep(1000)
-                if (!started) break
+                if (binding!!.minute.text == "00" && binding!!.second.text == "00") {
+                    break
+                }
                 total = total - 1
                 activity!!.runOnUiThread {
                     binding!!.minute.text = String.format("%02d", (total / 60) % 60)
@@ -157,11 +165,25 @@ class CookFragment : Fragment() {
                 }
 
             }
-
+            makeNotification()
         }
-
-
-        flag = false
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun makeNotification() {
+        val id = "MyChannel"
+        val name = "Alarm"
+        val notificationChannel =
+                NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT)
+        notificationChannel.enableVibration(true)
+        val builder = NotificationCompat.Builder(context as Context, id)
+                .setSmallIcon(R.drawable.book)
+                .setContentTitle("Timer Alarm")
+                .setContentText("요리가 완료되었습니다.")
+                .setAutoCancel(true)
+        val manager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(notificationChannel)
+        val notification = builder.build()
+        manager.notify(11, notification)
 
     }
 
