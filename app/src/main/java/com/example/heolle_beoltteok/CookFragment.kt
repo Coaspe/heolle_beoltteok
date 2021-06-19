@@ -92,9 +92,7 @@ class CookFragment : Fragment() {
         }
 
         binding!!.startBtn.setOnClickListener {
-            if (flag == true) {
-                start()
-            }
+            start()
         }
 
         binding!!.pasueBtn.setOnClickListener {
@@ -152,8 +150,12 @@ class CookFragment : Fragment() {
             return
         }
         started = true
+        flag = true
         thread(start = true) {
-            while (true) {
+            activity!!.runOnUiThread {
+                binding!!.startBtn.isEnabled = false
+            }
+            while (flag == true) {
                 Thread.sleep(1000)
                 if (binding!!.minute.text == "00" && binding!!.second.text == "00") {
                     break
@@ -164,6 +166,9 @@ class CookFragment : Fragment() {
                     binding!!.second.text = String.format("%02d", total % 60)
                 }
 
+            }
+            activity!!.runOnUiThread {
+                binding!!.startBtn.isEnabled = true
             }
             makeNotification()
         }
@@ -188,9 +193,7 @@ class CookFragment : Fragment() {
     }
 
     fun pause() {
-        started = false
-        flag = true
-
+        flag = false
     }
 
     fun stop() {
