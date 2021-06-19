@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+            <Button
+                android:id="@+id/addTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="요리 추가"
+                android:backgroundTint="#f5f5dc"
+                android:textColor="@color/black"
+                />
+        <Button
+            android:id="@+id/addExerciseTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="운동 추가"
+            android:backgroundTint="#f5f5dc"
+            android:textColor="@color/black"
+            />
+        <Button
+            android:id="@+id/deleteExerciseTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="운동 삭제"
+            android:backgroundTint="#f5f5dc"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+</FrameLayout>
