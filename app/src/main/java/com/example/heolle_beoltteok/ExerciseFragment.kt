@@ -1,26 +1,24 @@
 package com.example.heolle_beoltteok
 
+//import com.firebase.ui.database.FirebaseRecyclerOptions
+//import com.google.firebase.database.DatabaseReference
+//import com.google.firebase.database.FirebaseDatabase
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.heolle_beoltteok.databinding.FragmentCookBinding
 import com.example.heolle_beoltteok.databinding.FragmentExerciseBinding
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import kotlin.concurrent.thread
 
 
 class ExerciseFragment : Fragment() {
     var binding: FragmentExerciseBinding?=null
-    lateinit var rdb: DatabaseReference
+//    lateinit var rdb: DatabaseReference
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var adapter: ExerciseAdapter
+//    lateinit var adapter: ExerciseAdapter
     var findQuery = false
     var stat = 0
 
@@ -44,7 +42,7 @@ class ExerciseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        rdb = FirebaseDatabase.getInstance().getReference("MyData/items")
+//        rdb = FirebaseDatabase.getInstance().getReference("MyData/items")
 //        initData()
 
     }
@@ -62,7 +60,7 @@ class ExerciseFragment : Fragment() {
 
 
             val item = ExerciseData(e_name, e_min, e_sec, r_min, r_sec)
-            rdb.child(e_name).setValue(item)
+//            rdb.child(e_name).setValue(item)
 
         }
         scan.close()
@@ -70,56 +68,56 @@ class ExerciseFragment : Fragment() {
     }
     fun initFB(){
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        val query = rdb.limitToLast(50)
-        val option = FirebaseRecyclerOptions.Builder<ExerciseData>()
-            .setQuery(query,ExerciseData::class.java)
-            .build()
-        adapter = ExerciseAdapter(option)
-        binding?.recyclerView?.layoutManager = layoutManager
-        binding?.recyclerView?.adapter = adapter
-        adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
-            override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
-                Toast.makeText(context,"gg",Toast.LENGTH_SHORT).show()
-            }
+//        val query = rdb.limitToLast(50)
+//        val option = FirebaseRecyclerOptions.Builder<ExerciseData>()
+//            .setQuery(query,ExerciseData::class.java)
+//            .build()
+//        adapter = ExerciseAdapter(option)
+//        binding?.recyclerView?.layoutManager = layoutManager
+//        binding?.recyclerView?.adapter = adapter
+//        adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
+//            override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
+//                Toast.makeText(context,"gg",Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }
 
-        }
 
 
-
-        adapter.startListening()
+//        adapter.startListening()
     }
 
     fun init() {
         total = binding!!.minute.text.toString().toInt() *60 + binding!!.second.text.toString().toInt()
-        adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
-            override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
-                stat = 0
-                stop()
-                stop2()
-                var exerciseTimeText = holder.binding.ExerciseTime.text.toString()
-                val spltext = exerciseTimeText.split(" ")
-
-                binding!!.minute.text = spltext[0].toString()
-                binding!!.second.text = spltext[2].toString()
-
-                total = binding!!.minute.text.toString()
-                    .toInt() * 60 + binding!!.second.text.toString()
-                    .toInt()
-
-                binding!!.progressBar1.setProgress(100)
-                binding!!.progressBar2.setProgress(100)
-
-                var restTimeText = holder.binding.RestTime.text.toString()
-                val spltext2 = restTimeText.split(" ")
-                binding!!.rminute.text = spltext2[0].toString()
-                binding!!.rsecond.text = spltext2[2].toString()
-
-                total2 = binding!!.rminute.text.toString()
-                    .toInt() * 60 + binding!!.rsecond.text.toString()
-                    .toInt()
-
-            }
-        }
+//        adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
+//            override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
+//                stat = 0
+//                stop()
+//                stop2()
+//                var exerciseTimeText = holder.binding.ExerciseTime.text.toString()
+//                val spltext = exerciseTimeText.split(" ")
+//
+//                binding!!.minute.text = spltext[0].toString()
+//                binding!!.second.text = spltext[2].toString()
+//
+//                total = binding!!.minute.text.toString()
+//                    .toInt() * 60 + binding!!.second.text.toString()
+//                    .toInt()
+//
+//                binding!!.progressBar1.setProgress(100)
+//                binding!!.progressBar2.setProgress(100)
+//
+//                var restTimeText = holder.binding.RestTime.text.toString()
+//                val spltext2 = restTimeText.split(" ")
+//                binding!!.rminute.text = spltext2[0].toString()
+//                binding!!.rsecond.text = spltext2[2].toString()
+//
+//                total2 = binding!!.rminute.text.toString()
+//                    .toInt() * 60 + binding!!.rsecond.text.toString()
+//                    .toInt()
+//
+//            }
+//        }
 
         binding!!.startBtn.setOnClickListener {
             if (flag == true) {

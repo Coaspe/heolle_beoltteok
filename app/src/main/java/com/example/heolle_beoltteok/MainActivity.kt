@@ -149,10 +149,6 @@ private fun init() {
                     replaceFragment(TestFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.setting_page -> {
-                    replaceFragment(SettingFragment())
-                    return@setOnNavigationItemSelectedListener true
-                }
                 else -> {
                     return@setOnNavigationItemSelectedListener false
                 }
