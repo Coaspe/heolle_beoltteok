@@ -1,9 +1,14 @@
 package com.example.heolle_beoltteok
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +17,10 @@ import com.example.heolle_beoltteok.databinding.FragmentExerciseBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -28,6 +37,8 @@ class ExerciseFragment : Fragment() {
     var total2 = 0
     var started = false
     var flag = true
+
+//    var set = 1
 
 
 
@@ -49,7 +60,9 @@ class ExerciseFragment : Fragment() {
 
     }
 
-
+    fun editTextClear(dialogView: View) {
+        dialogView.findViewById<EditText>(R.id.addDialogExerciseSetName).text.clear()
+    }
 
     private fun initData() {
         val scan = Scanner(resources.openRawResource(R.raw.data))
@@ -78,7 +91,10 @@ class ExerciseFragment : Fragment() {
         binding?.recyclerView?.layoutManager = layoutManager
         binding?.recyclerView?.adapter = adapter
         adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
-            override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
+            override fun OnItemClick(
+                holder: ExerciseAdapter.ViewHolder,
+                view: View
+            ) {
                 Toast.makeText(context,"gg",Toast.LENGTH_SHORT).show()
             }
 
@@ -91,8 +107,30 @@ class ExerciseFragment : Fragment() {
 
     fun init() {
         total = binding!!.minute.text.toString().toInt() *60 + binding!!.second.text.toString().toInt()
-        adapter.itemClickListener = object : ExerciseAdapter.OnItemClickListener {
+        adapter.itemClickListener = object: ExerciseAdapter.OnItemClickListener {
             override fun OnItemClick(holder: ExerciseAdapter.ViewHolder, view: View) {
+//                val mBuilder = AlertDialog.Builder(context)
+//                    .setView(dialogView)
+//                    .setCancelable(false)
+//                    .setTitle("세트 수 설정")
+//                val mAlertDialog = mBuilder.show()
+//                val okButton = dialogView.findViewById<Button>(R.id.addDialogAddButton2)
+//                val noButton = dialogView.findViewById<Button>(R.id.addDialogCancleButton2)
+//
+//                okButton.setOnClickListener {
+//                    editTextClear(dialogView)
+//                    var setName = dialogView.findViewById<EditText>(R.id.addDialogExerciseSetName)
+//                    set = setName.text.toString().toInt()
+//                    binding!!.setset.text = set.toString()
+//
+//
+//                }
+//                noButton.setOnClickListener {
+//                    editTextClear(dialogView)
+//                    mAlertDialog.dismiss()
+//                    (dialogView.parent as ViewGroup).removeView(dialogView)
+//                }
+
                 stat = 0
                 stop()
                 stop2()
@@ -121,7 +159,12 @@ class ExerciseFragment : Fragment() {
             }
         }
 
+//        binding!!.commitbtn.setOnClickListener {
+//            set = binding!!.setset.text.toString().toInt()
+//        }
+
         binding!!.startBtn.setOnClickListener {
+            flag = true
             if (flag == true) {
                 start()
             }
@@ -136,9 +179,6 @@ class ExerciseFragment : Fragment() {
         binding!!.stopBtn.setOnClickListener {
             stop()
         }
-
-
-
     }
 
     fun start() {
@@ -171,7 +211,6 @@ class ExerciseFragment : Fragment() {
                         binding!!.second.text = "00"
                     }
                 }
-
 
             }
 

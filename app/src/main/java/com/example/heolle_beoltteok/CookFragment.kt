@@ -70,6 +70,7 @@ class CookFragment : Fragment() {
     }
 
 
+
     private fun initRecyclerView(recyclerView: RecyclerView) {
         recyclerView.layoutManager = GridLayoutManager(context,2, GridLayoutManager.HORIZONTAL, false)
         adapter = CookRecyclerViewAdapter(CookInfo_ArrayList)
