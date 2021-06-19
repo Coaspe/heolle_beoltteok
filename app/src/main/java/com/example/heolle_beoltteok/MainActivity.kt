@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.heolle_beoltteok.Test.ItemFragment2
+import com.example.heolle_beoltteok.Test.TestFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
@@ -14,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private var timerTask: Timer? = null      // null을 허용
     private var isRunning = false
     private var lap = 1
+    val itemFragment2 = ItemFragment2()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,7 +149,7 @@ private fun init() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.test_page -> {
-                    replaceFragment(TestFragment())
+                    replaceFragment(itemFragment2)
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> {

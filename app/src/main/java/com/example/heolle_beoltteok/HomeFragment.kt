@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.heolle_beoltteok.Test.ItemFragment2
+import com.example.heolle_beoltteok.Test.TestFragment
 
 
 class HomeFragment : Fragment() {
+    val itemFragment2 = ItemFragment2()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,7 +30,7 @@ class HomeFragment : Fragment() {
             From_Home_Transaction(CookFragment())
         }
         test.setOnClickListener {
-            From_Home_Transaction(TestFragment())
+            From_Home_Transaction(itemFragment2)
         }
 
         return view
