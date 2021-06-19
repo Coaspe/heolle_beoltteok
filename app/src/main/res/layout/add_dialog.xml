@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginRight="90dp"
+
         android:gravity="center">
 
         <TextView
@@ -68,13 +68,15 @@
             android:layout_height="wrap_content"
             android:text="요리 사진"
             android:textSize="17sp"
+            android:layout_marginRight="40dp"
             tools:layout_editor_absoluteX="37dp"
             tools:layout_editor_absoluteY="214dp" />
 
         <ImageView
             android:id="@+id/addDialogCookingImage"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:layout_marginRight="80dp"/>
 
     </LinearLayout>
 

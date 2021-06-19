@@ -28,6 +28,7 @@ import kotlin.concurrent.thread
 
 class CookFragment : Fragment() {
     var binding:FragmentCookBinding?=null
+    var dialogBinding : AddDialogBinding?=null
     var total = 0
     var started = false
     var CookInfo_ArrayList : ArrayList<CookInfo> = ArrayList()
@@ -41,13 +42,13 @@ class CookFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCookBinding.inflate(layoutInflater,container,false)
-        val dialogBinding = AddDialogBinding.inflate(layoutInflater, container,false)
+        dialogBinding = AddDialogBinding.inflate(layoutInflater, container,false)
         firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
         firebaseDatainit(binding!!.root)
         initRecyclerView(binding!!.recyclerView)
         init()
-        addCooking(binding!!.root,context as Context, adapter, dialogBinding, binding!!)
+        addCooking(binding!!.root,context as Context, adapter, dialogBinding!!, binding!!)
         return binding!!.root
     }
     fun init() {
@@ -162,6 +163,7 @@ class CookFragment : Fragment() {
                 return
             }
             filePath = data.data
+            dialogBinding!!.addDialogCookingImage.setImageURI(filePath)
         }
     }
 
