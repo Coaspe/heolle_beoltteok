@@ -100,6 +100,9 @@ class User_SettingFragment : Fragment() {
 
                 itemTitle = binding!!.addText.text.toString()
 
+                testName.text.clear()
+                testTime.text.clear()
+
 
 
             }

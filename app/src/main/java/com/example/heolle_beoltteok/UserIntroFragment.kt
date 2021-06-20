@@ -41,13 +41,12 @@ class UserIntroFragment : Fragment() {
 
     private fun init() {
         rdb = FirebaseDatabase.getInstance().getReference("userFrag/items")
-
+        binding!!.textView2.text = viewModel.getValue()
         binding!!.button.setOnClickListener {
             val fragment = requireActivity().supportFragmentManager.beginTransaction()
             //fragment.addToBackStack(null)
             fragment.replace(R.id.frameLayout, UserTimerFragment())
             fragment.commit()
-            binding!!.textView2.text = viewModel.getValue()
         }
     }
 
