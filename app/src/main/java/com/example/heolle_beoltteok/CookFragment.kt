@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -72,6 +73,7 @@ class CookFragment : Fragment() {
         return binding!!.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun init() {
         total = binding!!.minute.text.toString().toInt() * 60 + binding!!.second.text.toString().toInt()
         adapter.itemClickListener = object : CookRecyclerViewAdapter.OnItemClickListener {
@@ -106,7 +108,6 @@ class CookFragment : Fragment() {
 
     }
 
-
     private fun initRecyclerView(recyclerView: RecyclerView) {
         recyclerView.layoutManager = GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
         adapter = CookRecyclerViewAdapter(CookInfo_ArrayList)
@@ -129,10 +130,10 @@ class CookFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                         val addbtn = view.findViewById<Button>(R.id.addTimer2)
                         val deletebtn = view.findViewById<Button>(R.id.deleteTimer)
-                        if (!deletebtn.isEnabled){
+                        if (!deletebtn.isEnabled) {
                             deletebtn.isEnabled = true
                         }
-                        if (!addbtn.isEnabled){
+                        if (!addbtn.isEnabled) {
                             addbtn.isEnabled = true
                         }
                     }.addOnFailureListener {
@@ -149,15 +150,14 @@ class CookFragment : Fragment() {
             Toast.makeText(context, "요리를 선택해주세요!!!", Toast.LENGTH_SHORT).show()
             return
         }
-        started = true
-        flag = true
-        thread(start = true) {
-            activity!!.runOnUiThread {
-                binding!!.startBtn.isEnabled = false
-            }
+        thread(start = true)
+        {
+            started = true
+            flag = true
             while (flag == true) {
                 Thread.sleep(1000)
                 if (binding!!.minute.text == "00" && binding!!.second.text == "00") {
+                    started = false
                     break
                 }
                 total = total - 1
@@ -165,14 +165,13 @@ class CookFragment : Fragment() {
                     binding!!.minute.text = String.format("%02d", (total / 60) % 60)
                     binding!!.second.text = String.format("%02d", total % 60)
                 }
-
             }
-            activity!!.runOnUiThread {
-                binding!!.startBtn.isEnabled = true
+            if (started == false) {
+                makeNotification()
             }
-            makeNotification()
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun makeNotification() {
         val id = "MyChannel"
@@ -231,31 +230,31 @@ class CookFragment : Fragment() {
             val confirmBtn = deleteBinding?.deleteConfirmBtn
             val deleteImageView = deleteBinding?.deleteDialogCookingImage
 
-            var temp : String = ""
-                confirmBtn?.setOnClickListener {
-                    if (deleteName?.text.toString() == ""){
-                        Toast.makeText(context, "삭제할 요리의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        for (i in 0 until CookInfo_ArrayList.size) {
-                            if (CookInfo_ArrayList.get(i).cookingName.toLowerCase() == deleteName?.text.toString().toLowerCase()) {
-                                GlobalScope.launch {
-                                    val url : URL = URL(CookInfo_ArrayList.get(i).cookingImg)
-                                    val conn : HttpURLConnection = url.openConnection() as HttpURLConnection
-                                    conn.doInput = true
-                                    conn.connect()
-                                    val Is : InputStream = conn.inputStream
-                                    val bitmap : Bitmap = BitmapFactory.decodeStream(Is)
-                                    withContext(Dispatchers.Main) {
-                                        deleteImageView?.setImageBitmap(bitmap)
-                                        deleteBinding?.deleteDialogdeleteButton?.isEnabled = true
-                                    }
+            var temp: String = ""
+            confirmBtn?.setOnClickListener {
+                if (deleteName?.text.toString() == "") {
+                    Toast.makeText(context, "삭제할 요리의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    for (i in 0 until CookInfo_ArrayList.size) {
+                        if (CookInfo_ArrayList.get(i).cookingName.toLowerCase() == deleteName?.text.toString().toLowerCase()) {
+                            GlobalScope.launch {
+                                val url: URL = URL(CookInfo_ArrayList.get(i).cookingImg)
+                                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                                conn.doInput = true
+                                conn.connect()
+                                val Is: InputStream = conn.inputStream
+                                val bitmap: Bitmap = BitmapFactory.decodeStream(Is)
+                                withContext(Dispatchers.Main) {
+                                    deleteImageView?.setImageBitmap(bitmap)
+                                    deleteBinding?.deleteDialogdeleteButton?.isEnabled = true
                                 }
-                                temp = CookInfo_ArrayList.get(i).cookingName
-                                break
                             }
+                            temp = CookInfo_ArrayList.get(i).cookingName
+                            break
                         }
                     }
                 }
+            }
             okButton?.setOnClickListener {
                 GlobalScope.launch {
                     deleteImage(temp)
@@ -292,7 +291,7 @@ class CookFragment : Fragment() {
 
             okButton.setOnClickListener {
                 GlobalScope.launch {
-                        uploadImage(dialogBinding, adapter, cookBinding)
+                    uploadImage(dialogBinding, adapter, cookBinding)
                 }
                 mAlertDialog.dismiss()
                 (dialogBinding.root.parent as ViewGroup).removeView(dialogBinding.root)
@@ -358,13 +357,13 @@ class CookFragment : Fragment() {
         }
     }
 
-    private fun deleteImage(CookingName : String) {
+    private fun deleteImage(CookingName: String) {
         val db = FirebaseFirestore.getInstance()
         db.collection("Cooking_Info").document(CookingName)
                 .delete().addOnSuccessListener {
                     Toast.makeText(context, "요리를 삭제하였습니다.", Toast.LENGTH_SHORT).show()
-                    for (i in 0 until CookInfo_ArrayList.size){
-                        if (CookInfo_ArrayList.get(i).cookingName == CookingName){
+                    for (i in 0 until CookInfo_ArrayList.size) {
+                        if (CookInfo_ArrayList.get(i).cookingName == CookingName) {
                             CookInfo_ArrayList.removeAt(i)
                             adapter.notifyDataSetChanged()
                             deleteBinding!!.deleteDialogCookingName.text.clear()
@@ -374,6 +373,7 @@ class CookFragment : Fragment() {
                 }
 
     }
+
     fun checkNumber(str: String): Boolean {
         var check: Char
 
