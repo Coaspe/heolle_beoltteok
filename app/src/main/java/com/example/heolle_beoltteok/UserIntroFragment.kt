@@ -1,6 +1,7 @@
 package com.example.heolle_beoltteok
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.heolle_beoltteok.databinding.FragmentUserIntroBinding
 import com.example.heolle_beoltteok.databinding.FragmentUserMenuBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class UserIntroFragment : Fragment() {
     val viewModel: MyViewModel by activityViewModels()
+    lateinit var rdb: DatabaseReference
+    val scope = CoroutineScope(Dispatchers.IO)
     var binding: FragmentUserIntroBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,14 +40,15 @@ class UserIntroFragment : Fragment() {
 
 
     private fun init() {
-        binding!!.textView2.text = viewModel.getValue()
-        binding!!.button.setOnClickListener {
-            val fragment = activity?.supportFragmentManager?.beginTransaction()
-            //fragment.addToBackStack(null)
-            fragment?.replace(R.id.frameLayout, UserTimerFragment())
-            fragment?.commit()
-        }
+        rdb = FirebaseDatabase.getInstance().getReference("userFrag/items")
 
+        binding!!.button.setOnClickListener {
+            val fragment = requireActivity().supportFragmentManager.beginTransaction()
+            //fragment.addToBackStack(null)
+            fragment.replace(R.id.frameLayout, TestFragment())
+            fragment.commit()
+            binding!!.textView2.text = viewModel.getValue()
+        }
     }
 
 }

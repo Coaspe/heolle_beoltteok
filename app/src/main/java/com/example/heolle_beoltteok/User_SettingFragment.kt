@@ -2,13 +2,16 @@ package com.example.heolle_beoltteok
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.heolle_beoltteok.databinding.FragmentUserSettingBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -21,14 +24,15 @@ class User_SettingFragment : Fragment() {
     var binding: FragmentUserSettingBinding? = null
     val firestore = FirebaseFirestore.getInstance()
     lateinit var rdb: DatabaseReference
-    lateinit var rdb2: DatabaseReference
 
     lateinit var itemTitle:String
     lateinit var newItem: HashMap<String, String>
-    var newItemArray : ArrayList<UserItemInfo> = ArrayList()
+    var newItemArray : ArrayList<HashMap<String, String>> = ArrayList<HashMap<String, String>>()
 
     lateinit var dialogView:View
     lateinit var adapter: UserSettingAdapter
+
+    var TestInfo_ArrayList : ArrayList<UserItemInfo> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +57,6 @@ class User_SettingFragment : Fragment() {
 
     private fun init() {
         rdb = FirebaseDatabase.getInstance().getReference("userFrag/items")
-        rdb2 = FirebaseDatabase.getInstance().getReference("userFrag/itemname")
 
 
         binding!!.recyclerView.layoutManager = LinearLayoutManager(context,
@@ -63,42 +66,104 @@ class User_SettingFragment : Fragment() {
 
 
         binding!!.addBtn2.setOnClickListener {
+            if(binding!!.addText.text.isEmpty() ) {
+                val builder = AlertDialog.Builder(context)
+                    .setTitle("입력 오류")
+                    .setMessage("입력해주세요.")
+                    .show()
+                return@setOnClickListener
+            }
             val mBuilder = AlertDialog.Builder(context)
                 .setView(dialogView)
                 .setCancelable(false)
-                .setTitle("타이머 추가")
-            val mAlertDialog = mBuilder.show()
+                .setTitle("타이머 추가").show()
+//            val mAlertDialog = mBuilder.show()
+
             val okButton = dialogView.findViewById<Button>(R.id.addDialogAddButton)
             val noButton = dialogView.findViewById<Button>(R.id.addDialogCancleButton)
+            val testName = dialogView.findViewById<EditText>(R.id.addDialogCookingName)
+            val testTime= dialogView.findViewById<EditText>(R.id.addDialogCookingTime)
             okButton.setOnClickListener {
-                val testName = dialogView.findViewById<EditText>(R.id.addDialogCookingName).text.toString()
-                val testTime= dialogView.findViewById<EditText>(R.id.addDialogCookingTime).text.toString()
 
-                val test = UserItemInfo(testName,testTime,String.format("%02d", testTime.toInt()/60),String.format("%02d", testTime.toInt()%60),"00")
+                val test = UserItemInfo(testName.text.toString(),testTime.text.toString(),String.format("%02d", testTime.text.toString().toInt()/60),String.format("%02d", testTime.text.toString().toInt()%60),"00")
                 TestInfo_ArrayList.add(test)
                 adapter.notifyDataSetChanged()
 
-                val itemTitle = binding!!.addText.text.toString()
-                rdb.child(itemTitle).child(testName).setValue(test)
-                var tempitem = UserMenuTitle(itemTitle)
-                rdb2.child(itemTitle).setValue(tempitem)
+                newItem = hashMapOf<String, String>(
+                    "testName" to testName.text.toString(),
+                    "testTime" to testTime.text.toString(),
+                    "hour" to String.format("%02d",  testTime.text.toString().toInt() / 60),
+                    "minute" to String.format("%02d",  testTime.text.toString().toInt()% 60),
+                    "sec" to "00"
+                )
+                newItemArray.add(newItem)
+
+                itemTitle = binding!!.addText.text.toString()
+
+
 
             }
             noButton.setOnClickListener {
-
-                mAlertDialog.dismiss()
-                //(dialogView.parent as ViewGroup).removeView(dialogView)
+                if (dialogView.getParent() != null) {
+                    (dialogView.getParent() as ViewGroup).removeView(dialogView)
+                }
+                testName.text.clear()
+                testTime.text.clear()
+                mBuilder.dismiss()
             }
         }
 
-        binding!!.button3.setOnClickListener {
-            val fragment = activity?.supportFragmentManager?.beginTransaction()
+        binding!!.addBtn3.setOnClickListener {
+
+
+            rdb.child(itemTitle).setValue(UserMenuTitle(itemTitle))
+            var num = 0
+            for(i in newItemArray) {
+
+                var itemName = i.get("itemName")
+                if (itemName != null) {
+                    firestore.collection(itemTitle).document("$num"+"."+itemName).set(i)
+                    num++
+                }
+            }
+            val fragment = requireActivity().supportFragmentManager.beginTransaction()
             //fragment.addToBackStack(null)
-            fragment?.replace(R.id.frameLayout, UserMenuFragment())
-            fragment?.commit()
+            fragment.replace(R.id.frameLayout, UserMenuFragment())
+            fragment.commit()
         }
 
+        binding!!.cancelBtn.setOnClickListener {
+            val fragment = requireActivity().supportFragmentManager.beginTransaction()
+            //fragment.addToBackStack(null)
+            fragment.replace(R.id.frameLayout, UserMenuFragment())
+            fragment.commit()
+        }
+        val simpleCallBack = object: ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.DOWN or ItemTouchHelper.UP,
+            ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView,
+                                viewHolder: RecyclerView.ViewHolder,
+                                target: RecyclerView.ViewHolder
+            ): Boolean {
 
+                val pos = adapter.moveItem(viewHolder.adapterPosition,target.adapterPosition)
+                val temp = newItemArray.get(pos.get(0))
+                val temp2 = newItemArray.get(pos.get(1))
+
+                newItemArray.set(pos.get(0),temp2)
+                newItemArray.set(pos.get(1),temp)
+                Log.i("pos",newItemArray.get(1).toString())
+                return true
+            }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val pos = adapter.removeItem(viewHolder.adapterPosition)
+                Log.e("position",pos.toString())
+                newItemArray.removeAt(pos)
+
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(simpleCallBack)
+        itemTouchHelper.attachToRecyclerView(binding!!.recyclerView)
     }
 
 
