@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.app.NotificationCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -152,12 +153,18 @@ class CookFragment : Fragment() {
         }
         thread(start = true)
         {
+            activity!!.runOnUiThread {
+                binding!!.startBtn.isEnabled = false
+            }
             started = true
             flag = true
             while (flag == true) {
                 Thread.sleep(1000)
                 if (binding!!.minute.text == "00" && binding!!.second.text == "00") {
                     started = false
+                    activity!!.runOnUiThread {
+                        binding!!.startBtn.isEnabled = true
+                    }
                     break
                 }
                 total = total - 1
@@ -165,6 +172,9 @@ class CookFragment : Fragment() {
                     binding!!.minute.text = String.format("%02d", (total / 60) % 60)
                     binding!!.second.text = String.format("%02d", total % 60)
                 }
+            }
+            activity!!.runOnUiThread {
+                binding!!.startBtn.isEnabled = true
             }
             if (started == false) {
                 makeNotification()

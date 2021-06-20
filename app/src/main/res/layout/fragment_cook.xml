@@ -128,6 +128,6 @@
         android:orientation="horizontal"
         tools:context=".CookFragment"
         android:layout_weight="6"
-        tools:listitem="@layout/cookingrow" />
+        tools:listitem="@layout/cookingrow"/>
 
 </LinearLayout>
