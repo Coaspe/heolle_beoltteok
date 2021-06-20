@@ -18,9 +18,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.app.NotificationCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -151,6 +149,7 @@ class CookFragment : Fragment() {
             Toast.makeText(context, "요리를 선택해주세요!!!", Toast.LENGTH_SHORT).show()
             return
         }
+
         thread(start = true)
         {
             activity!!.runOnUiThread {
