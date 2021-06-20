@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok.Test
+package com.example.heolle_beoltteok
 
 data class TestInfo(
         var testName : String = "",

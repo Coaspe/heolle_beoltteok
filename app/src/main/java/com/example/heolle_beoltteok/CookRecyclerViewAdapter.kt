@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok.Cook
+package com.example.heolle_beoltteok
 
 import android.view.LayoutInflater
 import android.view.View

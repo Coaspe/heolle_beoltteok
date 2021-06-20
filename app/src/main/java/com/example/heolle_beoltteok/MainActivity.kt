@@ -1,37 +1,22 @@
 package com.example.heolle_beoltteok
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.heolle_beoltteok.Cook.CookFragment
-import com.example.heolle_beoltteok.Cook.CookRecyclerViewAdapter
-import com.example.heolle_beoltteok.Test.ItemFragment2
-import com.example.heolle_beoltteok.Test.MyItemRecyclerViewAdapter
 import com.example.heolle_beoltteok.databinding.ActivityMainBinding
-import com.example.heolle_beoltteok.databinding.ActivityMainBinding.inflate
-import com.example.heolle_beoltteok.databinding.AddDialog2Binding
 import com.example.heolle_beoltteok.databinding.AddDialog3Binding
-import com.example.heolle_beoltteok.databinding.AddDialogBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {

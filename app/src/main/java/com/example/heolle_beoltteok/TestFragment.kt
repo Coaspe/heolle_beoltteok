@@ -1,24 +1,17 @@
-package com.example.heolle_beoltteok.Test
+package com.example.heolle_beoltteok
 
-import android.app.AlarmManager
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.example.heolle_beoltteok.R
 import com.example.heolle_beoltteok.databinding.FragmentTestBinding
 
 import com.google.firebase.firestore.FirebaseFirestore

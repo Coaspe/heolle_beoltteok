@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok.Test
+package com.example.heolle_beoltteok
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.heolle_beoltteok.R
 import com.example.heolle_beoltteok.databinding.FragmentItem2Binding
 
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -61,10 +60,10 @@ class ItemFragment2 : Fragment() {
 
         adapter.itemClickListener = object : MyItemRecyclerViewAdapter.OnItemClickListener {
             override fun OnItemClick(
-                holder: MyItemRecyclerViewAdapter.ViewHolder,
-                view: View,
+                    holder: MyItemRecyclerViewAdapter.ViewHolder,
+                    view: View,
 
-                ) {
+                    ) {
                 viewModel.liveData.value = holder.idView.text.toString()
 
                 val fragment = activity!!.supportFragmentManager.beginTransaction()

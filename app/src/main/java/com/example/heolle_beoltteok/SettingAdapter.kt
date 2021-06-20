@@ -1,11 +1,10 @@
-package com.example.heolle_beoltteok.Test
+package com.example.heolle_beoltteok
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.heolle_beoltteok.R
 
 class SettingAdapter(
     val items:ArrayList<TestInfo>

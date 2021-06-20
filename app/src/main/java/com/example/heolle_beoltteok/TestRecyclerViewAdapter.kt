@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok.Test
+package com.example.heolle_beoltteok
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +11,9 @@ class TestRecyclerViewAdapter(val items:ArrayList<TestInfo>) : RecyclerView.Adap
     val testFragment = TestFragment()
 
     interface OnItemClickListener {
-        fun OnItemClick(holder: ViewHolder, view: View,position: Int,hour:String,minute:String,sec:String)
+        fun OnItemClick(holder: ViewHolder, view: View, position: Int, hour:String, minute:String, sec:String)
     }
-    var itemClickListener:OnItemClickListener? = null
+    var itemClickListener: OnItemClickListener? = null
     //var itemClickListener2:OnItemClickListener? = null
 
 

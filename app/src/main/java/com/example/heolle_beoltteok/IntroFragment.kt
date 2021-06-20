@@ -1,4 +1,4 @@
-package com.example.heolle_beoltteok.Test
+package com.example.heolle_beoltteok
 
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.heolle_beoltteok.R
 import com.example.heolle_beoltteok.databinding.FragmentIntroBinding
 
 import com.google.firebase.database.*

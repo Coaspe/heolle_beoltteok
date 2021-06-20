@@ -1,20 +1,19 @@
-package com.example.heolle_beoltteok.Test
+package com.example.heolle_beoltteok
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.heolle_beoltteok.R
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
 class MyItemRecyclerViewAdapter(options: FirebaseRecyclerOptions<TestTitle>)
     : FirebaseRecyclerAdapter<TestTitle, MyItemRecyclerViewAdapter.ViewHolder>(options) {
     interface OnItemClickListener {
-        fun OnItemClick(holder: MyItemRecyclerViewAdapter.ViewHolder, view: View)
+        fun OnItemClick(holder: ViewHolder, view: View)
     }
-    var itemClickListener:OnItemClickListener? = null
+    var itemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
