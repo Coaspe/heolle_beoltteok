@@ -15,7 +15,7 @@ class UserTimerAdapter(options: FirebaseRecyclerOptions<UserItemInfo>)
 
 
     interface OnItemClickListener{
-        fun OnItemClick(view: View, position: Int)
+        fun OnItemClick(holder: ViewHolder, view: View)
     }
     var itemClickListener:OnItemClickListener?=null
 
@@ -25,7 +25,7 @@ class UserTimerAdapter(options: FirebaseRecyclerOptions<UserItemInfo>)
     inner class ViewHolder(val binding: UsertimerrowBinding): RecyclerView.ViewHolder(binding.root){
         init {
             binding.root.setOnClickListener {
-                itemClickListener!!.OnItemClick(it, adapterPosition)
+                itemClickListener!!.OnItemClick(this, it)
 
             }
 
@@ -40,8 +40,6 @@ class UserTimerAdapter(options: FirebaseRecyclerOptions<UserItemInfo>)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: UserItemInfo) {
         holder.binding.apply {
-
-
             itemName.text = model.itemName.toString()
             itemTime.text = model.itemTime.toString()
 

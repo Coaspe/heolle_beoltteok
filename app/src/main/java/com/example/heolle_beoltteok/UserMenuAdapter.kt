@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
-class UserMenuAdapter(options: FirebaseRecyclerOptions<UserMenuTitle>)
+class
+UserMenuAdapter(options: FirebaseRecyclerOptions<UserMenuTitle>)
     : FirebaseRecyclerAdapter<UserMenuTitle, UserMenuAdapter.ViewHolder>(options) {
     interface OnItemClickListener {
         fun OnItemClick(holder: UserMenuAdapter.ViewHolder, view: View)

@@ -14,16 +14,18 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
+import java.util.HashMap
 
 
 class User_SettingFragment : Fragment() {
     var binding: FragmentUserSettingBinding? = null
-
+    val firestore = FirebaseFirestore.getInstance()
     lateinit var rdb: DatabaseReference
     lateinit var rdb2: DatabaseReference
 
-
-    var TestInfo_ArrayList : ArrayList<UserItemInfo> = ArrayList()
+    lateinit var itemTitle:String
+    lateinit var newItem: HashMap<String, String>
+    var newItemArray : ArrayList<UserItemInfo> = ArrayList()
 
     lateinit var dialogView:View
     lateinit var adapter: UserSettingAdapter

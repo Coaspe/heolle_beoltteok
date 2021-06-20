@@ -14,6 +14,22 @@ class UserSettingAdapter(
 //        }
 //        var itemClickListener:OnItemClickListener? = null
 
+    fun moveItem(oldPos: Int, newPos: Int):List<Int> {
+        val list = listOf<Int>(oldPos,newPos)
+        val item = items[oldPos]
+        items.removeAt(oldPos)
+        items.add(newPos, item)
+        notifyItemMoved(oldPos, newPos)
+        return list
+    }
+
+    fun removeItem(pos: Int):Int {
+        items.removeAt(pos)
+        notifyItemRemoved(pos)
+        return pos
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.settingrow, parent, false)
