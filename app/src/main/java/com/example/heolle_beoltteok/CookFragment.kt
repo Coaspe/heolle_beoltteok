@@ -189,7 +189,7 @@ class CookFragment : Fragment() {
                 NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT)
         notificationChannel.enableVibration(true)
         val builder = NotificationCompat.Builder(context as Context, id)
-                .setSmallIcon(R.drawable.book)
+                .setSmallIcon(R.drawable.cooking)
                 .setContentTitle("Timer Alarm")
                 .setContentText("요리가 완료되었습니다.")
                 .setAutoCancel(true)
