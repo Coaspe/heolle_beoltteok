@@ -45,7 +45,7 @@ class UserIntroFragment : Fragment() {
         binding!!.button.setOnClickListener {
             val fragment = requireActivity().supportFragmentManager.beginTransaction()
             //fragment.addToBackStack(null)
-            fragment.replace(R.id.frameLayout, TestFragment())
+            fragment.replace(R.id.frameLayout, UserTimerFragment())
             fragment.commit()
             binding!!.textView2.text = viewModel.getValue()
         }

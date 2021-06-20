@@ -44,7 +44,7 @@ class UserMenuFragment : Fragment() {
     }
 
     fun Datainit() {
-        rdb = FirebaseDatabase.getInstance().getReference("userFrag/itemname")
+        rdb = FirebaseDatabase.getInstance().getReference("userFrag/items")
 
     }
 
@@ -68,12 +68,13 @@ class UserMenuFragment : Fragment() {
                 view: View,
 
                 ) {
-                viewModel.liveData.value = holder.idView.text.toString()
 
                 val fragment = activity!!.supportFragmentManager.beginTransaction()
                 //fragment.addToBackStack(null)
                 fragment.replace(R.id.frameLayout, UserIntroFragment())
                 fragment.commit()
+                viewModel.liveData.value = holder.idView.text.toString()
+
             }
         }
         binding!!.button2.setOnClickListener {
