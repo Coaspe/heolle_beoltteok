@@ -32,8 +32,11 @@ class TestFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if(myThread.isAlive)
-            stop()
+        try {
+            if (myThread.isAlive)
+                stop()
+        }
+        catch(e:Exception) {}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
