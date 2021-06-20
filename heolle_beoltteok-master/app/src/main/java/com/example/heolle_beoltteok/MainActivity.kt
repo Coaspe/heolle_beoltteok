@@ -126,6 +126,8 @@ private fun init() {
                 bottomNavBar.menu.getItem(2).isChecked = true
             } else if (fg_str == "TestFragment"){
                 bottomNavBar.menu.getItem(3).isChecked = true
+            }else if (fg_str == "UserMenuFragment"){
+                bottomNavBar.menu.getItem(4).isChecked = true
             }
 
         }
@@ -148,6 +150,10 @@ private fun init() {
                 }
                 R.id.test_page -> {
                     replaceFragment(itemFragment2)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.usertimer_page -> {
+                    replaceFragment(UserMenuFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> {

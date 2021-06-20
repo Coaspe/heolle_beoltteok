@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
             From_Home_Transaction(itemFragment2)
         }
 
+
         return view
     }
 
