@@ -90,8 +90,8 @@ class User_SettingFragment : Fragment() {
                 adapter.notifyDataSetChanged()
 
                 newItem = hashMapOf<String, String>(
-                    "testName" to testName.text.toString(),
-                    "testTime" to testTime.text.toString(),
+                    "itemName" to testName.text.toString(),
+                    "itemTime" to testTime.text.toString(),
                     "hour" to String.format("%02d",  testTime.text.toString().toInt() / 60),
                     "minute" to String.format("%02d",  testTime.text.toString().toInt()% 60),
                     "sec" to "00"
