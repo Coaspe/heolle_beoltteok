@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 package com.example.heolle_beoltteok
 
 import android.os.Bundle
@@ -170,3 +172,4 @@ private fun init() {
     }
 }
 
+>>>>>>> origin/Uram
